@@ -2,6 +2,14 @@
 layout: list
 title: Presentations
 items:
+  - title: Stop Making Pie Charts!
+    description: >
+      An opinionated guide to the craft of data visualisation
+    dir: stop-making-pie-charts
+    events:
+    - venue: Open Data Manchester
+      url: http://opendatamanchester.org.uk/
+      date: 2015-06-30
   - title: Improve your data
     description: >
       Lessons learned from the science of information entropy. I worked this up into a [a blog post](http://infonomics.ltd.uk/news/blog/2015/05/08/how-information-entropy-teaches-us-to-improve-data-quality/) if you'd prefer a more thorough explanation.
