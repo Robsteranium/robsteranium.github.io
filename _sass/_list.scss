@@ -1,0 +1,16 @@
+#list-item {
+  clear: left;	
+  margin-bottom: 4em;
+  img {
+    width: 100px;
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 2em;
+  }
+  #event {
+    float: right;
+    font-size: 80%;
+    line-height: 80%;
+    clear: right;
+  }
+}

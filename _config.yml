@@ -1,0 +1,16 @@
+# Site settings
+title: Keycraft
+email: robin.keycraft@infonomics.ltd.uk
+rich_description: > # this means to ignore newlines until "baseurl:"
+  Overflow from [infonomics.ltd.uk](http://infonomics.ltd.uk/news/index.html) for
+  any topics that need to present code samples.
+plain_description: >
+  Overflow from http://infonomics.ltd.uk/news/index.html for
+  any topics that need to present code samples.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://robsteranium.github.io/"
+twitter_username: robsteranium
+github_username:  robsteranium
+
+# Build settings
+markdown: kramdown

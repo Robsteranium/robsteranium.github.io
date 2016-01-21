@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>Improve your data</title>
+    <meta content='Lessons learned from analysis, explained with the science of information entropy' name='description' />
+    <meta content='Robin Gower' name='author' />
+    <meta content='yes' name='apple-mobile-web-app-capable' />
+    <meta content='black-translucent' name='apple-mobile-web-app-status-bar-style' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=no' name='viewport' />
+    <link href='css/reveal.min.css' rel='stylesheet' />
+    <link href='css/theme/night.css' id='theme' rel='stylesheet' />
+    <!-- For syntax highlighting -->
+    <link href='lib/css/zenburn.css' rel='stylesheet' />
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script type='text/javascript'>
+      //<![CDATA[
+        if( window.location.search.match( /print-pdf/gi ) ) {
+          var link = document.createElement( 'link' );
+          link.rel = 'stylesheet';
+          link.type = 'text/css';
+          link.href = 'css/print/pdf.css';
+          document.getElementsByTagName( 'head' )[0].appendChild( link );
+        }
+      //]]>
+    </script>
+  </head>
+  <body>
+    <div class='reveal'>
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class='slides'>
+        <section>
+          <h1>Improve your data</h1>
+          <h3>
+            Lessons learned from analysis, explained with the science of information entropy
+          </h3>
+          <p>
+            These slides were made with <a href="http://lab.hakim.se/reveal-js">reveal.js</a>. Watch out the slides go up and down as well as left and right!
+            You can navigate with arrow keys or hit escape for the overview.
+          </p>
+          <p>
+            The talk was originally presented at <a href="http://opendatamanchester.org.uk/">Open Data Manchester</a> on 27/05/2014.
+            A more in depth discussion of these ideas can be found on the <a href="http://infonomics.ltd.uk/news/blog/2014/05/08/how-information-entropy-teaches-us-to-improve-data-quality/">Infonomics blog</a>.
+          </p>
+          <p>
+            <small>
+              <a href='http://infonomics.ltd.uk'>Robin Gower</a>
+              /
+              <a href='http://twitter.com/robsteranium'>@robsteranium</a>
+            </small>
+          </p>
+        </section>
+        <section>
+          <h2>What makes data good?</h2>
+          <img class='stretch' src='images/Data_and_Lore.jpg' />
+          <aside class='notes'>
+            I'm often asked by data-owners for guidance on sharing data.
+            This has also come up at ODM.
+            I prepared a few suggestions.
+            And found a theme that linked them.
+          </aside>
+        </section>
+        <section>
+          <h2>TBL's 5 Star Scheme</h2>
+          <img class='stretch' src='images/5star.png' />
+          <aside class='notes'>
+            This scheme certainly provides a strategic overview (release early/ improve later, embrace openness, aim to create linked open data) but it doesn't say much about specific questions such as: how should the data be structured or presented and what should it include?
+          </aside>
+        </section>
+        <section>
+          <section>
+            <h2>Increase Information Entropy</h2>
+            <img class='stretch' src='images/hubble.png' />
+            <aside class='notes'>
+              <p>In writing this, it occurs to me that the general principle is to increase information entropy</p>
+              <p>Entropy in science refers the the number of ways a thermodynamic system can be arranged</p>
+              <p>Commonly though of as a measure of disorder or our lack of information about it</p>
+              <p>Isolated systems may never decrease in entropy</p>
+            </aside>
+          </section>
+          <section>
+            <h2>Uncertainty - range of possible states</h2>
+            <img class='stretch' src='images/password_strength.png' />
+            <aside class='notes'>
+              <p>Can count states in terms of binary digits, or bits</p>
+              <p>A letter has 26 possible states or 4.7 bits (2^4.7 = 26), add a bit for caps, three for numerals etc</p>
+              <p>Ultimately the entropy of a common word is lower than the product of it's characters because it is predictable.</p>
+              <p>Given that you know the word begins with a "q", what do you think the next letter will be?</p>
+              <p>What really increases entropy is number of characters, not swapping in punctuation etc</p>
+              <p>Entropy is this range of possible data states</p>
+            </aside>
+          </section>
+          <section>
+            <h2>Data resolves uncertainty</h2>
+            <br />
+            <h3>Quantity</h3>
+            <br />
+            <h3>Clarity</h3>
+            <br />
+            <h3>Novelty</h3>
+            <aside class='notes'>
+              <p>[Information entropy](http://en.wikipedia.org/wiki/Entropy_%28information_theory%29) is a measure of the expected value of a message.</p>
+              <p>It is higher when that message (once delivered) is able to resolve more uncertainty.</p>
+              <p>That is to say, that the message is able to say more things, more clearly, that are novel to the recipient.</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <h2>More is better than less</h2>
+          <img class='stretch' src='images/iceberg.png' />
+          <aside class='notes'>
+            <ul>
+              <li>While it is (comparatively) easy to ignore irrelevant or useless data, it is impossible to consider data that you don't have.</li>
+              <li>If it's easy enough to share everything then do so. Bandwidth is cheap and it's relatively straightforward to filter data.</li>
+              <li>Those analysing your data may have a different perspective on what's useful - you don't know what they don't know.</li>
+              <li>This may be inefficient, particularly if the receiver is already in possession of the data you're sending.</li>
+              <li>Where your data set includes data from a third party it may be better to provide a linking index to that data, rather than to replicate it wholesale.</li>
+              <li>Indeed even if the data you have available to release is small, it may be made larger through linking it to other sources.</li>
+            </ul>
+          </aside>
+        </section>
+        <section>
+          <section>
+            <h2>Link with code(lists)</h2>
+            <img class='stretch' src='images/iso-country-flags-sheet-flat.png' />
+          </section>
+          <section>
+            <h2>BBC - MusicBrainz</h2>
+            <img class='stretch' src='images/bowie.png' />
+            <p>http://www.bbc.co.uk/music/artists/5441c29d-3602-4898-b1a1-b77fa23b8e50</p>
+          </section>
+          <section>
+            <h2>Positive network effects</h2>
+            <img class='stretch' src='images/lod-cloud.png' />
+            <aside class='notes'>
+              <p>There are positive network effects to data linking - the value of data grows exponentially as not only may it be linked with other data, but that other data may be linked with it.</p>
+            </aside>
+          </section>
+          <section>
+            <h2>Reference data</h2>
+            <img class='stretch' src='images/bristol.png' />
+          </section>
+          <aside class='notes'>
+            <p>Indeed, perhaps the most valuable data sources of all are the indicies that allow for linking between datasets. This is often called reference data - sets of permissible values that ensure that two datasets refer to a common concept in the same terms. The quality of a dataset may be improved by adding reference data or codes from standard code lists. A typical example of this is the Government Statistical Service codes that the ONS use to identify geographic areas in the UK (this is much prefered over area names that can't be linked because of differences in spelling that prevent - "Bristol" or "Bristol, City of", it's all [E06000023](http://statistics.data.gov.uk/explore?URI=http://statistics.data.gov.uk/id/statistical-geography/E06000023) to me!).</p>
+          </aside>
+          <section>
+            <h2>MECE principle</h2>
+          </section>
+          <section>
+            <h2>Mutually exclusive - no overlaps</h2>
+            <img class='stretch' src='images/me.png' />
+            <aside class='notes'>
+              If the codes overlap then they can't be compared and the offending codes will ultimately need to be combined.
+            </aside>
+          </section>
+          <section>
+            <h2>Collectively exhaustive - no gaps</h2>
+            <img class='stretch' src='images/ce.png' />
+            <aside class='notes'>
+              <p>If the codes don't cover a significant category you'll have lot's of "other"s which will basically render the codelist useless.</p>
+            </aside>
+          </section>
+          <section>
+            <h2>Mutually Exclusive, Collectively Exhaustive</h2>
+            <img class='stretch' src='images/mece.png' />
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Normalise</h2>
+            <br />
+            <h3>Efficiency</h3>
+            <br />
+            <h3>Reliability</h3>
+            <br />
+            <h3>Integrity</h3>
+            <aside class='notes'>
+              <ul>
+                <li>Here I'm referring to [database normalisation](http://en.wikipedia.org/wiki/Database_normalization), rather than [statistical normalisation](http://en.wikipedia.org/wiki/Normalization_%28statistics%29).</li>
+                <li>If you have a table with two or more rows that need to be changed at the same time (because in some place they're referring to the same thing) then some normalisation is required.</li>
+                <li>A normalised database is one with a minimum redundancy - the same data isn't repeated in multiple places.</li>
+                <li>Look-up tables are used, for example, so that a categorical variable doesn't need to have it's categories repeated (and possibly misspelled).</li>
+                <li>Database normalisation ensures integrity (otherwise if two things purporting to be the same are different then how do you know which one is right?) and efficiency (repetition is waste).</li>
+              </ul>
+            </aside>
+          </section>
+          <section data-background='images/nrps-raw.png'>
+            <aside class='notes'>
+              <p>Rail Passenger Survey Raw</p>
+              <p>It is already cross-tabulated (denormalised)</p>
+              <p>It's machine readble, but it's very difficult to parse (#page)</p>
+            </aside>
+          </section>
+          <section data-background='images/nrps-xtab.png'>
+            <aside class='notes'>
+              <p>The variables are actually:</p>
+              <p>question, in green</p>
+              <p>answer, in red</p>
+              <p>sector/ or operating company, in blue</p>
+              <p>and of course count of responses (the actual data in yellow)</p>
+            </aside>
+          </section>
+          <section data-background='images/nrps-normalised.png'>
+            <aside class='notes'>
+              <p>The same data can be normalised like this</p>
+              <p>And the aspects that were only identifiable by layout, are now codified into fields (columns)</p>
+            </aside>
+          </section>
+          <section data-background='images/rail-appeal-comments.png'>
+            <aside class='notes'>
+              <p>Again the cases are duplicated for every comment on each case. The highlighted columns are all redundant.</p>
+              <p>This isn't a major problem here as the data clearly comes from a normalised system underneath.</p>
+              <p>In some circumstances, particularly where manual data entry is involved, this leaves scope for discrepancies.</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Be Precise, allow user to simplify</h2>
+            <img class='stretch' src='images/pixellate.jpg' />
+          </section>
+          <section>
+            <h2>There's no such thing as unsimplification</h2>
+            <img class='stretch' src='images/EnhancedImage.gif' />
+          </section>
+          <section>
+            <h2>Don't categorise continuous variables unless you can't help it</h2>
+            <aside class='notes'>
+              <p>This seems to be particularly common with Age.</p>
+              <p>The problem is, of course, that different datasets make different choices about the age intervals, and so can't be compared.</p>
+              <p>One might use 'working age' 16-74 and another 'adult' 15+.</p>
+              <p>Unless data with the original precision (e.g. yearly age bands) can be found, then the analyst will need to apportion or interpolate values in between categories.</p>
+            </aside>
+          </section>
+          <section>
+            <h2>If you have to categorise, do it after data has been collected</h2>
+            <aside class='notes'>
+              <p>Categories that do not divide a continuous dimension evenly are also problematic.</p>
+              <p>This is particularly common in survey data, where respondents are presented with a closed-list of intervals as options, rather than being asked to provide an estimate of the value itself.</p>
+              <p>The result is often that the majority of responses fall into one category, with few in the others.</p>
+              <p>Presenting a closed-list of options is sometimes to be prefered for other reasons (e.g. in questions about income, categories might ellicit more responses) - if so the bounds should be chosen with reference to the expected frequencies of responses not the linear scale of the dimension (i.e. the categories should have similar numbers of observations in them, not occupy similar sized intervals along the range of the variable being categorised).</p>
+            </aside>
+          </section>
+          <section>
+            <h2>Once you've lost precision, you can't get it back</h2>
+            <div class='video-container'>
+              <iframe allowfullscreen='' class='video' frameborder='0' height='400' mozallowfullscreen='' src='http://www.youtube.com/embed/sp77AjBdlEc?rel=0&amp;HD=1&amp;showinfo=0&amp;controls=0' webkitallowfullscreen='' width='640'></iframe>
+            </div>
+          </section>
+        </section>
+        <section>
+          <h2>Represent Nothingness Accurately</h2>
+          <br />
+          <h3>Not available</h3>
+          <br />
+          <h3>Null</h3>
+          <br />
+          <h3>Zero</h3>
+          <aside class='notes'>
+            <p>It's important to distinguish between different types of nothingness. Nothing can be:</p>
+            
+            <ul>
+            <li>Not available - where no value has been provided (the value is unknown);</li>
+            <li>Null - where the value is known to be nothing;</li>
+            <li>Zero - which is actually a specific number (although it may sometimes be used to represent null).</li>
+            </ul>
+            
+            
+            <p>A blank space or a number defaulting to 0 could be any of these types of nothingness. Not knowing which type of nothing you're dealing with can undermine analysis.</p>
+          </aside>
+        </section>
+        <section>
+          <h2>Provide Metadata</h2>
+          <img class='stretch' src='images/discovery.png' />
+          <aside class='notes'>
+            <p>Metadata is data about data. It describes provenance (how the data was collected or derived) and coverage (e.g. years, places, limits to scope, criteria for categories), and provides warnings about assumptions and their implications for interpretation.</p>
+            
+            <p>Metadata isn't just a descriptive narrative. It can be analysed as data itself. It can tell someone whether or not your data is relevant to their requirements without them having to download and review it.</p>
+          </aside>
+        </section>
+        <section>
+          <h2>Increase Information Entropy</h2>
+          <p>Open more data to resolve more uncertainty</p>
+          <p>Duplication leads to uncertainty</p>
+          <p>Normalised data - same variety, but smaller/ clearer</p>
+          <p>Precise data - more possible states</p>
+          <p>Accurate nothingness - don't leave questions</p>
+          <p>Metadata makes your data more certain</p>
+          <h3>Don't interpret or summarise</h3>
+        </section>
+        <aside class='notes'>
+          <p>These tips are all related to a general principle of increasing entropy. As explained above, [Information entropy](http://en.wikipedia.org/wiki/Entropy_%28information_theory%29) is a measure of the expected value of a message. It is higher when that message (once delivered) is able to resolve more uncertainty. That is to say, that the message is able to say more things, more clearly, that are novel to the recipient.</p>
+          <ul>
+          <li>More data, whether in the original release or in the other sources that may be linked to it, means more variety, which means more uncertainty can be resolved, and thus more value provided.</li>
+          <li>Duplication (and thus the potential for inconsistency) in the message means that it doesn't resolve uncertainty, and thus doesn't add value.</li>
+          <li>Normalised data retains the same variety in a smaller, clearer message.</li>
+          <li>Precise data can take on more possible values and thus clarify more uncertainty than codified data.</li>
+          <li>Inaccurately represented nothingness also means that the message isn't able to resolve uncertainty (about which type of nothing applies).</li>
+          <li>Metadata makes the recipient more certain about the content of your data</li>
+          </ul>
+          <p>Herein lies a counter-intuitive aspect of releasing data. It seems to be sensible to reduce variety and uncertainty in the data, to make sense and interpret the raw data before it is presented. To provide more rather than less ordered data. In fact such actions make the data less informative, and make it harder to re-interpret the data in a wider range of contexts. Indeed much of the impetus behind Big Data is the recognition that unstructured, raw data has immense information potential. It is the capacity for re-interpretation that makes data valuable.</p>
+        </aside>
+        <section>
+          <h1>Improve your data</h1>
+          <h3>
+            Lessons learned from analysis, explained with the science of information entropy
+          </h3>
+          <p>
+            The talk was originally presented at <a href="http://opendatamanchester.org.uk/">Open Data Manchester</a> on 27/05/2014.
+            A more in depth discussion of these ideas can be found on the <a href="http://infonomics.ltd.uk/news/blog/2014/05/08/how-information-entropy-teaches-us-to-improve-data-quality/">Infonomics blog</a>.
+          </p>
+          <p>
+            <small>
+              <a href='http://infonomics.ltd.uk'>Robin Gower</a>
+              /
+              <a href='http://twitter.com/robsteranium'>@robsteranium</a>
+            </small>
+          </p>
+        </section>
+      </div>
+    </div>
+    <script src='lib/js/head.min.js'></script>
+    <script src='js/reveal.min.js'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+          width: 1200,
+          height: 800,
+        
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+        
+          theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+          transition: Reveal.getQueryHash().transition || 'fade', // 'cube', //'default', // default/cube/page/concave/zoom/linear/fade/none
+        
+          showNotes: true,
+        
+          // Parallax scrolling
+          // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+          // parallaxBackgroundSize: '2100px 900px',
+        
+          // Optional libraries used to extend on reveal.js
+          dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+          ]
+        });
+      //]]>
+    </script>
+  </body>
+</html>
