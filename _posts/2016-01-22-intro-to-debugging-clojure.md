@@ -3,7 +3,7 @@ title: It won't work! An introduction to debugging in Clojure
 layout: post
 date: 2016-01-22
 tags: clojure clojurebridge debugging
-redirect_from: "/2016/01/22/intro-to-debugging"
+redirect_from: "/2016/01/22/intro-to-debugging/"
 ---
 
 *This post was originally prepared for [ClojureBridge Berlin](http://clojurebridge-berlin.github.io/)*.
