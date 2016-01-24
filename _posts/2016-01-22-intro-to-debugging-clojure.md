@@ -1,5 +1,5 @@
 ---
-title: Debugging Clojure
+title: It won't work! An introduction to debugging in Clojure
 layout: post
 date: 2016-01-22
 tags: clojure clojurebridge debugging
