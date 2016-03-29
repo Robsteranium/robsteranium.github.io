@@ -7,6 +7,9 @@ items:
       An opinionated guide to the craft of data visualisation
     dir: stop-making-pie-charts
     events:
+    - venue: Data Visualisation Berlin
+      url: http://www.meetup.com/Data-Visualization-Berlin/events/229392609/
+      date: 2016-03-29
     - venue: Open Data Manchester
       url: http://opendatamanchester.org.uk/
       date: 2015-06-30
