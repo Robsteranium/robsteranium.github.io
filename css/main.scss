@@ -13,9 +13,13 @@ $base-line-height: 1.4;
 
 $heading-font-family: roboto_slabthin, roboto_regular, Helvetica, Arial, sans-serif;
 
-$text-color:       #111;
-$background-color: #fdfdfd;
-$brand-color:      #2a7ae2;
+$spacing-unit:     1em;
+
+//$terminal-green: #96de94;
+
+$text-color:       #444;
+$background-color: #ededed;
+$brand-color:      #6a6; //#2a7ae2;
 
 $grey-color:       #828282;
 $grey-color-light: lighten($grey-color, 40%);
@@ -45,9 +49,9 @@ $on-laptop:        800px;
 @import
         "base",
         "layout",
-        //"syntax-highlighting",
+        "green-syntax",
 	//"monokai",
-	"solarized-light",
+	//"solarized-light",
 	"list",
-       "roboto.css"
+        "roboto.css"
 ;
