@@ -14,7 +14,7 @@ All code has mistakes. These mistakes are not always obvious. They lurk like bug
 
 <figure><a href="https://commons.wikimedia.org/wiki/File:H96566k.jpg#/media/File:H96566k.jpg"><img alt="H96566k.jpg" src="https://upload.wikimedia.org/wikipedia/commons/8/8a/H96566k.jpg"></a><figcaption>By Courtesy of the Naval Surface Warfare Center, Dahlgren, VA., 1988. - U.S. Naval Historical Center Online Library Photograph <a rel="nofollow" class="external text" href="http://www.history.navy.mil/photos/images/h96000/h96566kc.htm">NH 96566-KN</a>, Public Domain, https://commons.wikimedia.org/w/index.php?curid=165211</figcaption></figure>
 
-Unforunately debugging your programs won't be as simple as looking for uninvited insects crawling through the source code. On the contrary, **debugging is hard**. Often you'll only have some cryptic error messages to work with.
+Unfortunately debugging your programs won't be as simple as looking for uninvited insects crawling through the source code. On the contrary, **debugging is hard**. Often you'll only have some cryptic error messages to work with.
 
 ## What do bugs look like
 
@@ -123,19 +123,25 @@ The arity of a function is how many argument it expects. If you call the functio
 ```clojure
 user> (str)                     ;    :)  str works without any arguments
 ""                              ;    it just creates an empty string
+```
 
+```clojure
 user> (max)                     ;    :(  max does expect at least one argument
 ArityException Wrong number of args (0) passed to: core/max  clojure.lang.AFn.throwArity (AFn.java:429)
 user> (max 1)                   ;    :)
 1
 user> (max 1 10)                ;    :)  and it's fine with more
 10
+```
 
+```clojure
 user> (first 1 2)               ;    :(  first expects one argument - a collection
 ArityException Wrong number of args (2) passed to: core/first--4110  clojure.lang.AFn.throwArity (AFn.java:429)
 user> (first [1 2])             ;    :)  but that collect can have many values
 1
+```
 
+```clojure
 user> (defn choose-randomly [x y]    ; two arguments are expected
         (if (> 0.5 (rand)) x y))
 #'user/choose-randomly
