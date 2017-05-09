@@ -1,0 +1,67 @@
+.slide pre code {
+    line-height: 1.4;
+    font-size: 18px;
+}
+
+@font-face {
+    font-family: 'roboto_slabthin';
+    src: url('../fonts/RobotoSlab-Thin-webfont.eot');
+    src: url('../fonts/RobotoSlab-Thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/RobotoSlab-Thin-webfont.woff') format('woff'),
+         url('../fonts/RobotoSlab-Thin-webfont.ttf') format('truetype'),
+         url('../fonts/RobotoSlab-Thin-webfont.svg#roboto_slabthin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'rokkittregular';
+    src: url('../fonts/rokkitt-webfont.eot');
+    src: url('../fonts/rokkitt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/rokkitt-webfont.woff2') format('woff2'),
+         url('../fonts/rokkitt-webfont.woff') format('woff'),
+         url('../fonts/rokkitt-webfont.ttf') format('truetype'),
+         url('../fonts/rokkitt-webfont.svg#rokkittregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ralewayregular';
+    src: url('../fonts/raleway-regular-webfont.eot');
+    src: url('../fonts/raleway-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/raleway-regular-webfont.woff2') format('woff2'),
+         url('../fonts/raleway-regular-webfont.woff') format('woff'),
+         url('../fonts/raleway-regular-webfont.ttf') format('truetype'),
+         url('../fonts/raleway-regular-webfont.svg#ralewayregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ralewaythin';
+    src: url('../fonts/raleway-thin-webfont.eot');
+    src: url('../fonts/raleway-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/raleway-thin-webfont.woff2') format('woff2'),
+         url('../fonts/raleway-thin-webfont.woff') format('woff'),
+         url('../fonts/raleway-thin-webfont.ttf') format('truetype'),
+         url('../fonts/raleway-thin-webfont.svg#ralewaythin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body.shower {
+    font-family: ralewayregular, sans-serif;
+}
+
+header.caption h1 {
+    font-family: rokkittregular, sans-serif;
+}
+
+section.slide h2 {
+    font-family: rokkittregular, sans-serif;
+    font-size: 48px;
+}

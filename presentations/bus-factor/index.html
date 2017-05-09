@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /><title>Calculate your Bus Factor - A practical introduction to GNU-R | Robin Gower, Infonomics</title><meta charset="utf-8" /><meta content="ie=edge" http-equiv="x-ua-compatible" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="shower/themes/material/styles/screen-16x10.css" rel="stylesheet" /><!-- %link(href="css/syntax-highlighting.css" rel="stylesheet")/ --><link href="css/extra.css" rel="stylesheet" /></head><body class="shower list"><header class="caption"><h1>Calculate your Bus Factor - A practical introduction to GNU-R</h1><p>Robin Gower, Infonomics</p></header><section class="slide" id="cover"><img src="pictures/gp-leaving.png" class="cover" /><h1>Calculate your Bus Factor</h1><h2>The strength of open source comes from the community, but what would happen if some of it were to go missing?</h2><h3><a href="http://infonomics.ltd.uk">Robin Gower</a></h3><!--
+To apply styles to the certain slides
+set slide ID to get needed elements--><style type="text/css">
+#cover h1, #cover h2, #cover h3 {
+  color: #FFF;
+  text-align: center;
+  font-family: rokkittregular;
+  line-height: 1;
+  }
+#cover h1 {
+	margin: 0;
+        font-size: 70px;
+        }
+#cover h2 {
+	margin: 0;
+	font-size:36px;
+	}
+#cover h3 {
+	margin: 1em;
+	font-size:42px;
+	}
+#cover a {
+	color:#FFF;
+        text-decoration: none;
+        background: none;
+        }
+#cover p#credit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        color: #FFF;
+        text-align: right;
+        font-size: 12px;
+        }
+#cover p span {
+        margin-right: 0.5em;
+        }
+p, li {
+  line-height: 1.4em;
+}
+li {
+  margin-bottom: 0.6em;
+}
+</style></section><section class="slide"><ol><li>What is the Bus Factor and why should you care?</li><li>Getting set-up with R</li><li>Measuring knowledge - a naive approach!</li><li>Extracting information from version control</li><li>Calculating the bus factor</li><li>Visualising the results</li><li>Comparing some open source projects</li></ol></section><section class="slide"><h2>What is the Bus Factor?</h2><p class="note">The bus factor is the number of developers that would need to be hit by a bus before a project is in serious trouble.</p><p class="note">A low bus factor means that knowledge is concentrated in a few vital people.</p><p class="note">A high bus factor means that a broad range of individuals know enough to carry on even if others leave.</p></section><section class="slide"><h2>Why should you listen to this talk?!</h2><p class="note">Find out if the kernel could cope without Torvalds</p><p class="note">Compare your work to successful open source projects</p><p class="note">Read between the lines - learn about your code base with data analysis</p></section><section class="slide"><h2>Look with your fingers</h2><p>Slides<a href="http://robsteranium.github.io/presentations/bus-factor">robsteranium.github.io/presentations/bus-factor</a></p><p>Code<a href="https://github.com/robsteranium/bus-factor">github.com/robsteranium/bus-factor</a></p></section><section class="slide"><h2>Getting set-up with R</h2><img alt="R logo" src="pictures/r-logo.png" style="float: right; height: 100px" /><ul><li>Install the R interpreter itself: <a href="https://cran.r-project.org/">cran.r-project.org</a> or e.g. r-base package in ubuntu</li><li>Install the RStudio IDE: <a href="https://www.rstudio.com/products/rstudio/download/">rstudio.com</a></li></ul></section><section class="slide"><img alt="R Studio Screenshot" src="pictures/rstudio-screenshot.png" class="cover" /><p class="caption">R Studio (AGPLv3) is a popular user interface offering code editor, console, plot viewer, documentation and other tooling for reproducible research</p></section><section class="slide"><h2>Measuring knowledge</h2><p>Naive approach: counting lines of code</p><table><tr><th>Author</th><th>Lines of Code</th></tr><tr><td>Katherine Johnson</td><td>9000</td></tr><tr><td>Dorothy Vaughan</td><td>4242</td></tr><tr><td>Mary Jackson</td><td>1337</td></tr><tr><td>...</td><td>...</td></tr></table></section><section class="slide"><h2>Authorship data from version control</h2>Clone a repo<pre>
+<code class="bash">
+$ git clone git://git.gnupg.org/gnupg.git
+</code></pre></section><section class="slide"><h2>Find the name of each line's author</h2><pre>
+<code class="bash">
+$ git blame --line-porcelain Makefile.am | grep '^author ' | sed -e 's/^author //'
+
+Werner Koch
+Werner Koch
+Werner Koch
+David Shaw
+Werner Koch
+David Shaw
+David Shaw
+Werner Koch
+...
+</code></pre></section><section class="slide"><h2>Get a vector of author names for a file</h2><pre>
+<code class="R">
+get_author_for_lines_in_file <- function(repo_path, filename) {
+  cmd <- paste("cd", repo_path, "; git blame --line-porcelain", filename,
+               "| grep '^author ' | sed -e 's/^author //'")
+  system(cmd, intern=T)
+}
+
+> get_author_for_lines_in_file("gnupg", "Makefile.am")
+[1] "Werner Koch" "Werner Koch" "Werner Koch" "David Shaw" "Werner Koch"     
+[6] "David Shaw"  "David Shaw"  "Werner Koch" "David Shaw" "Werner Koch"     
+[11] "David Shaw" "David Shaw"  "David Shaw"  "David Shaw" "Werner Koch"
+...
+</code></pre></section><section class="slide"><h2>Counting with Frequency Tables</h2><pre>
+<code class="R">
+> shoes <- c(35,37,37,38,38,38,39,39,39,40,40,40,40,41,41,42,47)
+> table(shoes)
+
+shoes
+35 37 38 39 40 41 42 47 
+ 1  2  3  3  4  2  1  1
+</code></pre></section><section class="slide"><h2>Counting LOC by Author</h2><pre>
+<code class="R">
+> authors <- get_author_for_lines_in_file("gnupg", "Makefile.am")
+> table(authors)
+authors
+David Shaw    Justus Winter Marcus Brinkmann     NIIBE Yutaka      Werner Koch 
+        10                1                2                1              129
+
+> as.data.frame(table(authors), responseName="line_count")
+           authors line_count
+1       David Shaw         10
+2    Justus Winter          1
+3 Marcus Brinkmann          2
+4     NIIBE Yutaka          1
+5      Werner Koch        129
+</code></pre></section><section class="slide"><h2>Counting LOC by Author</h2><pre>
+<code class="R">
+count_of_lines_by_author_in_file <- function(repo_path, filename) {
+  line_authors <- get_author_for_lines_in_file(repo_path, filename)
+  file_blame <- count_line_authors(line_authors)
+  file_blame
+}
+</code></pre><p class="next">Need to call this function for all the files in the repo and combine the results.</p></section><section class="slide"><h2>Get a list of files in the repository</h2><pre>
+<code class="bash">
+$ git ls-tree HEAD -r | awk -F '\t' '{print $2}'
+
+.gitignore
+ABOUT-NLS
+AUTHORS
+COPYING
+COPYING.CC0
+...
+</code></pre></section><section class="slide"><h2>Get a vector of files in a repo</h2><pre>
+<code class="R">
+enumerate_files_in_repo <- function(repo_path) {
+  cmd <- paste("cd", repo_path, "; git ls-tree HEAD -r | awk -F '\t' '{print $2}'")
+  system(cmd, intern=T)
+}
+
+> enumerate_files_in_repo("gnupg")
+[1] ".gitignore"                                                           
+[2] "ABOUT-NLS"                                                            
+[3] "AUTHORS"                                                              
+[4] "COPYING"                                                              
+[5] "COPYING.CC0"
+...
+</code></pre></section><section class="slide"><h2 style="margin-bottom: 0">Getting functional in R</h2><img alt="Split Apply Combine" src="pictures/splitapply.png" style="height: 70%" /><p style="text-align: right;"><a href="http://robsteranium.github.io/presentations/split-apply-combine">The Split, Apply, Combine Strategy</a></p></section><section class="slide"><h2>Total LOC per author across all files</h2><pre>
+<code class="R">
+count_of_lines_by_author_in_repo <- function(repo_path) {
+  repo_tree <- enumerate_files_in_repo(repo_path)
+  lines_by_file <- adply(repo_tree, 1, count_of_lines_by_author_in_file,
+                         repo_path=repo_path, .progress = "text")
+  ddply(lines_by_file, .(author), summarise, line_count=sum(line_count))
+}
+</code></pre></section><section class="slide"><h2>Total LOC per author across all files</h2><pre>
+<code class="R">
+> lba <- count_of_lines_by_author_in_repo("gnupg")
+  |==============                                               |  25%
+</code></pre></section><section class="slide"><h2>Total LOC per author across all files</h2><pre>
+<code class="R">
+> lba <- count_of_lines_by_author_in_repo("gnupg")
+  |============================                                 |  50%
+</code></pre></section><section class="slide"><h2>Total LOC per author across all files</h2><pre>
+<code class="R">
+> lba <- count_of_lines_by_author_in_repo("gnupg")
+  |==========================================                   |  75%
+</code></pre></section><section class="slide"><h2>Total LOC per author across all files</h2><pre>
+<code class="R">
+> lba <- count_of_lines_by_author_in_repo("gnupg")
+  |=============================================================| 100%
+</code></pre></section><section class="slide"><h2>Total LOC per author across all files</h2><pre>
+<code class="R">
+> lba <- count_of_lines_by_author_in_repo("gnupg")
+  |=============================================================| 100%
+
+> lba
+                                 author line_count
+1                           Werner Koch     542336
+2                            Repo Admin      51894
+3                       Jonas Borgström         71
+4                         Justus Winter      48338
+5                            David Shaw       2482
+6                   Daniel Kahn Gillmor      25051
+7                          Jim Meyering         45
+8                      Marcus Brinkmann       7887
+9                          NIIBE Yutaka      13004
+</code></pre></section><section class="slide"><h2>Calculating author contributions</h2><pre>
+<code class="R">
+calculate_author_contribution <- function(author_lines) {
+  sc <- author_lines[order(author_lines$line_count, decreasing=T),]
+  sc$cum_line_count <- cumsum(sc$line_count)
+  sc$cum_author_count <- 1:nrow(sc)
+  sc$cum_line_percent <- sc$cum_line_count/max(sc$cum_line_count)
+  sc$cum_author_percent <- sc$cum_author_count/max(sc$cum_author_count)
+  return(sc)
+}
+</code></pre></section><section class="slide"><h2>Calculating author contributions</h2><table style="font-size: 16px">  <col width="25%">  <col width="15%">  <col width="13%">  <col width="11%">  <col width="10%">  <col width="17%">  <thead>    <tr>      <th style="text-align:left;"> author </th>      <th style="text-align:right;"> line count </th>      <th style="text-align:right;"> cumulative line count </th>      <th style="text-align:right;"> cumulative author count </th>      <th style="text-align:right;"> cumulative line percent </th>      <th style="text-align:right;"> cumulative author percent </th>    </tr>  </thead>  <tbody>    <tr>      <td style="text-align:left;"> Werner Koch </td>      <td style="text-align:right; font-family: Roboto Mono;"> 542336 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 542336 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 1 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.75 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.02 </td>    </tr>    <tr>      <td style="text-align:left;"> Repo Admin </td>      <td style="text-align:right; font-family: Roboto Mono;"> 51894 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 594230 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 2 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.82 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.04 </td>    </tr>    <tr>      <td style="text-align:left;"> Justus Winter </td>      <td style="text-align:right; font-family: Roboto Mono;"> 48338 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 642568 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 3 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.89 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.07 </td>    </tr>    <tr>      <td style="text-align:left;"> Daniel Kahn Gillmor </td>      <td style="text-align:right; font-family: Roboto Mono;"> 25051 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 667619 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 4 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.92 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.09 </td>    </tr>    <tr>      <td style="text-align:left;"> Neal H. Walfield </td>      <td style="text-align:right; font-family: Roboto Mono;"> 18900 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 686519 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 5 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.95 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.11 </td>    </tr>    <tr>      <td style="text-align:left;"> NIIBE Yutaka </td>      <td style="text-align:right; font-family: Roboto Mono;"> 13004 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 699523 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 6 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.96 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.13 </td>    </tr>    <tr>      <td style="text-align:left;"> Marcus Brinkmann </td>      <td style="text-align:right; font-family: Roboto Mono;"> 7887 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 707410 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 7 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.98 </td>      <td style="text-align:right; font-family: Roboto Mono;"> 0.16 </td>    </tr>    <tr>      <td style="text-align:left;"> ... </td>      <td style="text-align:right; font-family: Roboto Mono;"> ... </td>      <td style="text-align:right; font-family: Roboto Mono;"> ... </td>      <td style="text-align:right; font-family: Roboto Mono;"> ... </td>      <td style="text-align:right; font-family: Roboto Mono;"> ... </td>      <td style="text-align:right; font-family: Roboto Mono;"> ... </td>    </tr>  </tbody></table></section><section class="slide"><h2>Calculating the Bus Factor (finally)</h2><pre>
+<code class="R">
+calculate_bus_factor <- function(ac, critical_threshold=0.5) {
+  critical_contributions <- ac[ac$cum_line_percent < critical_threshold, ]
+  nrow(critical_contributions)
+}
+</code>
+<code class="R next">
+> calculate_bus_factor(ac)
+0
+</code></pre></section><section class="slide"><h2>The Grammar of Graphics</h2><img alt="Wilkinson - Grammar of Graphics" src="pictures/grammar-of-graphics.jpg" style="float: right; height: 250px" /><p><ul><li>Variables</li><li>Transformations</li><li>Scales</li><li>Coordinates</li><li>Elements</li><li>Guides</li></ul></p><p style="text-align: right;"><a href="http://robsteranium.github.io/presentations/stop-making-pie-charts">Stop Making Pie Charts!</a></p></section><section class="slide"><h2>The Grammar of Graphics</h2><pre>
+<code class="R">
+library(ggplot2)
+library(scales)
+</code></pre></section><section class="slide"><pre>
+<code class="R">ggplot(ac, aes(cum_author_count, cum_line_percent))</code></pre><img src="pictures/plots/1.png" /></section><section class="slide"><pre>
+<code class="R">+ geom_point()</code></pre><img src="pictures/plots/2.png" /></section><section class="slide"><pre>
+<code class="R">+ geom_line()</code></pre><img src="pictures/plots/3.png" /></section><section class="slide"><pre>
+<code class="R">+ geom_hline(yintercept=0.5, colour="darkgrey")</code></pre><img src="pictures/plots/4.png" /></section><section class="slide"><pre>
+<code class="R">+ expand_limits(y=0, x=0)</code></pre><img src="pictures/plots/5.png" /></section><section class="slide"><pre>
+<code class="R">+ scale_y_continuous("Lines of Code", labels=percent)</code></pre><img src="pictures/plots/6.png" /></section><section class="slide"><pre>
+<code class="R">+ scale_x_log10("Number of Authors", breaks=c(0,10,20,30,40,50))</code></pre><img src="pictures/plots/7.png" /></section><section class="slide"><pre>
+<code class="R">+ labs(title="Cumulative Author Contributions to GNUPG")</code></pre><img src="pictures/plots/8.png" /></section><section class="slide"><pre>
+<code class="R">+ theme_minimal()</code></pre><img src="pictures/plots/9.png" /></section><section class="slide"><pre>
+<code class="R">+ theme_xkcd()</code></pre><img src="pictures/plots/10.png" /></section><section class="slide"><img src="pictures/plots/robust.png" class="cover" /></section><section class="slide"><img src="pictures/plots/precarious.png" class="cover" /></section><section class="slide" id="cover"><img src="pictures/gp-leaving.png" class="cover" /><h1>Calculate your Bus Factor</h1><p>Slides<a href="http://robsteranium.github.io/presentations/bus-factor">robsteranium.github.io/presentations/bus-factor</a></p><p>Code<a href="https://github.com/robsteranium/bus-factor">github.com/robsteranium/bus-factor</a></p><p><a href="mailto:robin@infonomics.ltd.uk">robin@infonomics.ltd.uk</a> | <a href="http://twitter.com/robsteranium">@robsteranium</a></p></section></body><div class="progress"></div><script src="shower/shower.min.js"></script></html>

@@ -2,6 +2,14 @@
 layout: list
 title: Presentations
 items:
+  - title: Calculate your Bus Factor - an introduction to GNU-R
+    description: >
+      The strength of open source comes from the community, but what would happen if some of it were to go missing?
+    dir: bus-factor
+    events:
+    - venue: Chaos Computer Club Berlin Datengarten
+      url: https://berlin.ccc.de/wiki/Datengarten/77
+      date: 2017-05-09
   - title: Stop Making Pie Charts!
     description: >
       An opinionated guide to the craft of data visualisation
