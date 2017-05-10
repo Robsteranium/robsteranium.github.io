@@ -10,6 +10,14 @@ items:
     - venue: Chaos Computer Club Berlin Datengarten
       url: https://berlin.ccc.de/wiki/Datengarten/77
       date: 2017-05-09
+  - title: Grafting Linked Data
+    description: >
+      What a billion rows taught us about pipelines
+    dir: grafter
+    events:
+    - venue: Clojure Berlin
+      url: https://www.meetup.com/Clojure-Berlin/events/226728445/
+      date: 2016-05-11
   - title: Stop Making Pie Charts!
     description: >
       An opinionated guide to the craft of data visualisation

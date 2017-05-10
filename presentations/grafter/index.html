@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><title>One Billion Rows</title><meta charset="utf-8"><meta content="ie=edge" http-equiv="x-ua-compatible"><meta content="width=device-width, initial-scale=1" name="viewport"><link href="shower/themes/material/styles/screen-16x10.css" rel="stylesheet"><link href="css/syntax-highlighting.css" rel="stylesheet"><link href="css/extra.css" rel="stylesheet"></head><body class="shower list"><header class="caption"><h1>Grafting Linked Data</h1><p>Robin Gower, Infonomics</p></header><section class="slide" id="cover"><img src="pictures/pipes.png" class="cover"><h1>Grafting Linked Data</h1><h2>What a billion rows taught us about pipelines</h2><h3><a href="http://infonomics.ltd.uk">Robin Gower</a></h3><p id="credit"><span>Image Credit:</span><span><a href="https://www.flickr.com/photos/thomasrousing/">Thomas Rousing</a></span><span>CC BY 2.0</span></p><!--
+To apply styles to the certain slides
+set slide ID to get needed elements--><style type="text/css">
+#cover h1, #cover h2, #cover h3 {
+  color: #FFF;
+  text-align: center;
+  font-family: rokkittregular;
+  line-height: 1;
+  }
+#cover h1 {
+	margin: 0 0 1em 0;
+        font-size: 70px;
+        }
+#cover h2 {
+	margin: 0 3em 1em 3em;
+	font-size:50px;
+	}
+#cover h3 {
+	margin:0 0 0 0;
+	font-size:30px;
+	}
+#cover a {
+	color:#FFF;
+        text-decoration: none;
+        background: none;
+        }
+#cover p#credit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        color: #FFF;
+        text-align: right;
+        font-size: 12px;
+        }
+#cover p span {
+        margin-right: 0.5em;
+        }
+p, li {
+  line-height: 1.4em;
+}
+li {
+  margin-bottom: 0.6em;
+}
+</style></section><section class="slide"><h2>Getting to a billion rows...</h2><ol><li>What is linked-data?</li><li>A grafter pipeline</li><li>The threading macro</li><li>Lazy sequences</li><li>Holding onto the head</li></ol></section><section class="slide"><img alt="RDF logo" src="pictures/linked-data.png" style="float: right"><h2>What is linked-data?</h2><ul><li>Graph-based data model</li><li>Everything is a URI</li><li>URIs are URLs (dereference them to get stuff)</li><li>Multiple Serialisations (e.g. turtle)</li><li>SPARQL query language</li></ul></section><section class="slide"><img alt="Bob, Alice and the Mona Lisa" src="pictures/example-graph.jpg" class="cover"></section><section class="slide"><h2>Subject Predicate Object</h2><p><pre>
+<code class="turtle">
+  <span class="hljs-selector-tag">person</span><span class="hljs-selector-pseudo">:Bob</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">thing</span><span class="hljs-selector-pseudo">:Person</span> ;
+    <span class="hljs-selector-pseudo">:friendOf</span> <span class="hljs-selector-tag">person</span><span class="hljs-selector-pseudo">:Alice</span> ;
+    <span class="hljs-selector-pseudo">:bornOn</span> "1990<span class="hljs-selector-tag">-07-04</span>"^^<span class="hljs-selector-tag">xsd</span><span class="hljs-selector-pseudo">:date</span> ;
+    <span class="hljs-selector-pseudo">:interestedIn</span> <span class="hljs-selector-tag">picture</span><span class="hljs-selector-pseudo">:TheMonaLisa</span> .
+
+  <span class="hljs-selector-tag">picture</span><span class="hljs-selector-pseudo">:TheMonaLisa</span> <span class="hljs-selector-pseudo">:createdBy</span> <span class="hljs-selector-tag">person</span><span class="hljs-selector-pseudo">:LeonardoDaVinci</span> .
+</code></pre></p></section><section class="slide"><h2>SPARQL</h2><p><pre>
+<code class="SQL">
+  SELECT * WHERE {
+    <span class="hljs-string">?s</span> <span class="hljs-string">?p</span> <span class="hljs-string">?o</span> .
+  }
+</code></pre><pre>
+<code class="SQL">
+  <span class="hljs-selector-tag">SELECT</span> * <span class="hljs-selector-tag">WHERE</span> {
+    ?s a <span class="hljs-attribute">thing</span>:Person ;
+       <span class="hljs-attribute">rdfs</span>:label <span class="hljs-string">"Alice"</span> ;
+       .
+  }
+</code></pre></p></section><section class="slide"><img alt="Publish My Data (data view)" src="pictures/pmd-data.png" style="position: absolute; top: 0; left: 0; max-width: 50%"><img alt="Publish My Data (api view)" src="pictures/pmd-api.png" style="position: absolute; top: 0; right: 0; max-width: 50%"></section><section class="slide"><h2>Grafter</h2><img alt="Grafter logo" src="pictures/grafter-logo.png" style="float: right;"><ul><li>Domain Specific Language</li><li>Composable Transformations</li><li>Lazy Sequences</li></ul></section><section class="slide"><img alt="Data flow with grafter" src="pictures/flow.png" style="height: 80%; float: left"><img alt="Grafter templates" src="pictures/grafter-example.png" style="height: 80%; float: right"></section><section class="slide"><h2>Domain Specific Language</h2><p><pre>
+<code class="clojure">
+  (<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> the-guide (<span class="hljs-name">-&gt;uri</span> <span class="hljs-string">"http://d-nb.info/gnd/4283976-2"</span>)
+  (<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> douglas-adams (<span class="hljs-name">-&gt;uri</span> <span class="hljs-string">"http://d-nb.info/gnd/119033364"</span>)
+
+  (<span class="hljs-name">graph</span> deutsche-national-bibliothek
+         [the-guide
+          [rdf:a gnd:Work]
+          [gndo:variantNameForTheWork <span class="hljs-string">"Per Anhalter durch die Galaxis"</span>]
+          [gndo:preferredNameForTheWork <span class="hljs-string">"The hitchhiker's guide to the galaxy"</span>]
+          [gndo:firstAuthor douglas-adams]]
+         [douglas-adams
+          [rdf:a gnd:DifferentiatedPerson]
+          [gndo:variantNameForThePerson <span class="hljs-string">"Adams, Douglas Noël"</span>]
+          [foaf:page (<span class="hljs-name">-&gt;uri</span> <span class="hljs-string">"http://de.wikipedia.org/wiki/Douglas_Adams"</span>)]
+          [gndo:dateOfBirth #inst <span class="hljs-string">"1952-03-11"</span>]])
+</code>    </pre></p></section><section class="slide"><h2>Composable Transformations</h2><img alt="Composable transformation" src="pictures/composable-transformation.png" class="cover"></section><section class="slide"><h2>The Threading Macro</h2><p><pre>
+<code class="clojure">(<span class="hljs-keyword">read</span>-<span class="hljs-keyword">input</span> <span class="hljs-keyword">file</span>)</code>
+<code class="clojure next">(<span class="hljs-name">process-contents</span> (<span class="hljs-name">read-input</span> file) capitalise)</code>
+<code class="clojure next">(<span class="hljs-name">write-result</span> (<span class="hljs-name">process-contents</span> (<span class="hljs-name">read-input</span> file) capitalise) <span class="hljs-string">"output.txt"</span>)</code></pre></p><p><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [contents (<span class="hljs-name">read-input</span> file)
+      results (<span class="hljs-name">process-contents</span> contents)]
+  (<span class="hljs-name">write-result</span> results <span class="hljs-string">"output.txt"</span>))
+</code></pre></p><p><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> (<span class="hljs-name">read-input</span> input)
+    (<span class="hljs-name">process-contents</span> capitalise)
+    (<span class="hljs-name">write-result</span> <span class="hljs-string">"output.txt"</span>))
+</code></pre></p><p style="float: right"><a href="http://clojure.org/guides/threading_macros">http://clojure.org/guides/threading_macros</a></p></section><section class="slide"><h2>Threading Sequables</h2><p><pre>
+<code class="clojure">(<span class="hljs-name"><span class="hljs-builtin-name">-&gt;&gt;</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">range</span></span> <span class="hljs-number">0</span> <span class="hljs-number">20</span>)    <span class="hljs-comment">;=&gt; (0 1 2 3 4 ...)</span></code>
+<code class="clojure next">     (<span class="hljs-name"><span class="hljs-builtin-name">remove</span></span> #{<span class="hljs-number">1</span> <span class="hljs-number">5</span>}) <span class="hljs-comment">;=&gt; (0 2 3 4 6 ...)</span></code>
+<code class="clojure next">     (<span class="hljs-name"><span class="hljs-builtin-name">filter</span></span> even?)  <span class="hljs-comment">;=&gt; (0 2 4 6 8 ...)</span></code>
+<code class="clojure next">     (<span class="hljs-name"><span class="hljs-builtin-name">map</span></span> inc)       <span class="hljs-comment">;=&gt; (1 3 5 7 9 ...)</span></code>
+<code class="clojure next">     (interpose <span class="hljs-string">"-"</span>) ;=&gt; (<span class="hljs-number">1</span> <span class="hljs-string">"-"</span> <span class="hljs-number">3</span> <span class="hljs-string">"-"</span> <span class="hljs-number">5</span> ...)</code>
+<code class="clojure next">     (apply <span class="hljs-keyword">str</span>))    ;=&gt; <span class="hljs-string">"1-3-5-7-9-11-13-15-17-19"</span></code></pre></p><p><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">-&gt;&gt;</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">slurp</span></span> <span class="hljs-string">"http://loripsum.net/api/10/short/plaintext"</span>)
+     (<span class="hljs-name">#</span>(<span class="hljs-name">clojure.string/split</span> % #<span class="hljs-string">"\n"</span>))
+     (<span class="hljs-name"><span class="hljs-builtin-name">remove</span></span> empty?)
+     (<span class="hljs-name"><span class="hljs-builtin-name">map</span></span> clojure.string/upper-case)
+     (<span class="hljs-name"><span class="hljs-builtin-name">apply</span></span> str)
+     (<span class="hljs-name">spit</span> <span class="hljs-string">"shouty-lorem.txt"</span>))
+</code></pre></p></section><section class="slide"><h2>A Grafter Pipeline</h2><p><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> prepare [filename]
+  (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> filename
+      (<span class="hljs-name">read-dataset</span> <span class="hljs-symbol">:format</span> <span class="hljs-symbol">:csv</span>)
+      (<span class="hljs-name">make-dataset</span> move-first-row-to-header)
+      (<span class="hljs-name">rename-columns</span> {<span class="hljs-string">"date"</span> <span class="hljs-symbol">:date-string</span>})
+      (<span class="hljs-name">derive-column</span> <span class="hljs-symbol">:date-of-birth</span> <span class="hljs-symbol">:date-string</span> clj-time.format/parse)
+      (<span class="hljs-name">derive-column</span> <span class="hljs-symbol">:age</span> <span class="hljs-symbol">:date-of-birth</span> #(<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> % (<span class="hljs-name">interval</span> (<span class="hljs-name">now</span>)) in-years))))
+</code></pre></p><p>Composition achieved by having each function take a dataset as the first argument and return a dataset.</p><p>Transformations can be parametised and arranged in a GUI.</p></section><section class="slide"><img src="pictures/datagraft.png" class="cover"></section><section class="slide"><h2>Lazy Sequences</h2><ul><li>A sequence that is only realised when it is needed</li><li>Returns a value and a function for getting to the next value</li><li>Makes it possible to have infinite sequences or ones too big to hold in memory</li></ul></section><section class="slide"><h2>Infinite Sequence</h2><p><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">iterate</span></span> inc <span class="hljs-number">0</span>)            <span class="hljs-comment">;=&gt; (0 1 2 ...)</span>
+(<span class="hljs-name"><span class="hljs-builtin-name">take</span></span> <span class="hljs-number">5</span> (<span class="hljs-name"><span class="hljs-builtin-name">iterate</span></span> inc <span class="hljs-number">0</span>))   <span class="hljs-comment">;=&gt; (0 1 2 3 4)</span>
+(<span class="hljs-name"><span class="hljs-builtin-name">drop</span></span> <span class="hljs-number">8</span> (<span class="hljs-name"><span class="hljs-builtin-name">iterate</span></span> inc <span class="hljs-number">0</span>))   <span class="hljs-comment">;=&gt; (8 9 10 ...)</span>
+</code></pre><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> iterate [fn val]
+  (<span class="hljs-name"><span class="hljs-builtin-name">cons</span></span> val (<span class="hljs-name"><span class="hljs-builtin-name">lazy-seq</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">iterate</span></span> fn (<span class="hljs-name"><span class="hljs-builtin-name">fn</span></span> val)))))
+</code></pre></p></section><section class="slide"><h2>Holding onto the Head</h2><ul><li>Lazy sequences cache values once they're realised (for speed and to ensure immutability)</li><li>If a there are references to realized values they remain in memory</li><li>You must release the head of the sequence to free up memory (otherwise each holds onto the next)</li></ul></section><section class="slide"><h2>Visual VM</h2><ul><li>Comes with the JDK</li><li>Basic version shows how the overall heap evolves</li><li>Visual GC plugin shows this by generation (eden, survivors, old)</li></ul></section><section class="slide"><h2>Holding onto the head</h2><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [<span class="hljs-name">coll</span> (<span class="hljs-name">range</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span>e10)]
+  [(<span class="hljs-name">last</span> coll) (<span class="hljs-name">first</span> coll)]))
+<span class="hljs-comment">;=&gt; OutOfMemoryError GC overhead limit exceeded  java.lang.Long.valueOf (Long.java:840)</span>
+</code></pre><img src="pictures/gc-head.png" style="width: 80%; margin: auto; display: block;"></section><section class="slide"><h2>Releasing the head</h2><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [<span class="hljs-name">coll</span> (<span class="hljs-name">range</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span>e10)]
+  [(<span class="hljs-name">first</span> coll) (<span class="hljs-name">last</span> coll)]))
+<span class="hljs-comment">;=&gt; [0 9999999999]</span>
+</code></pre><img src="pictures/gc-no-head.png" style="width: 80%; margin: auto; display: block;"></section><section class="slide"><h2>Can you see what's wrong?</h2><p><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> pass-rows [dataset f]
+  (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> (<span class="hljs-name">make-dataset</span> (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;&gt;</span></span> dataset <span class="hljs-symbol">:rows</span> f)
+                     (<span class="hljs-name">column-names</span> dataset))
+      (<span class="hljs-name"><span class="hljs-builtin-name">with-meta</span></span> (<span class="hljs-name"><span class="hljs-builtin-name">meta</span></span> dataset))))
+</code></pre><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> pass-rows [dataset f]
+  (<span class="hljs-name"><span class="hljs-builtin-name">let</span></span> [original-meta (<span class="hljs-name"><span class="hljs-builtin-name">meta</span></span> dataset)
+        original-columns (<span class="hljs-name">column-names</span> dataset)]
+     (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> (<span class="hljs-name">make-dataset</span> (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;&gt;</span></span> dataset <span class="hljs-symbol">:rows</span> f)
+                        original-columns)
+         (<span class="hljs-name"><span class="hljs-builtin-name">with-meta</span></span> original-meta))))
+</code></pre></p></section><section class="slide"><h2>More subtle this time...</h2><p><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> domain-data (<span class="hljs-name">-&gt;url</span> <span class="hljs-string">"http://statistics.gov.uk/data"</span>))
+
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> append-path-segments [url &amp; segments]
+  (<span class="hljs-name">append-path-segments*</span> url segments))
+
+(<span class="hljs-name"><span class="hljs-builtin-name">def</span></span> observation-uri
+  (<span class="hljs-name"><span class="hljs-builtin-name">partial</span></span> append-path-segments domain-data))
+</code></pre><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> observation-uri [dataset time geo dimensions unit measure]
+  (<span class="hljs-name">append-path-segments</span> domain-data dataset time geo dimensions unit measure))
+</code></pre></p></section><section class="slide"><h2>Memory vs CPU trade-off</h2><p><pre>
+<code class="clojure">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> pipeline [big-input]
+  (<span class="hljs-name">lazy-cat</span>
+    (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> big-input process-a)
+    (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> big-input process-b)))
+</code></pre><pre>
+<code class="clojure next">
+(<span class="hljs-name"><span class="hljs-builtin-name">defn</span></span> pipeline [get-big-input]
+  (<span class="hljs-name">lazy-cat</span>
+    (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> (<span class="hljs-name">get-big-input</span>) process-a)
+    (<span class="hljs-name"><span class="hljs-builtin-name">-&gt;</span></span> (<span class="hljs-name">get-big-input</span>) process-b)))
+</code></pre></p></section><section class="slide links"><style type="text/css">
+.links img {
+  width: 2em;
+  vertical-align: middle;
+  margin-right: 1em;
+}
+.links a {
+  background: none;
+}
+.links div {
+  margin-bottom: 1em;
+}
+.links div.row {
+  margin-bottom: 2em;
+}
+</style><p><div class="row"><div><img src="pictures/www.png"><a href="http://grafter.org">grafter.org</a>, <a href="https://datagraft.net">DataGraft</a>, <a href="http://www.swirrl.com/">PublishMyData</a></div><div><img src="pictures/github.png"><a href="http://github.com/Swirrl/grafter">Swirrl/grafter</a>, <a href="http://github.com/Swirrl/grafter-url">grafter-url</a>, <a href="http://github.com/Swirrl/grafter-extra">grafter-extra</a> & <a href="http://github.com/Swirrl/grafter-vocabularies">grafter-vocabularies</a></div></div><div class="row"><div><img src="pictures/www.png"><a href="http://infonomics.ltd.uk">infonomics.ltd.uk</a></div><div><img src="pictures/twitter.png"><a href="http://twitter.com/robsteranium">@robsteranium</a></div></div></p></section></body><div class="progress"></div><script src="shower/shower.min.js"></script></html>
