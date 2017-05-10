@@ -15,6 +15,6 @@ gems:
   - jekyll-redirect-from
 
 # Build settings
-markdown: redcarpet #kramdown
-#kramdown:
-#  input: GFM
+markdown: kramdown
+kramdown:
+  input: GFM
