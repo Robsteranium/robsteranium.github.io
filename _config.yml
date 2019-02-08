@@ -11,7 +11,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://robsteranium.github.io/"
 twitter_username: robsteranium
 github_username:  robsteranium
-gems:
+plugins:
   - jekyll-redirect-from
 
 # Build settings
