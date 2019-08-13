@@ -2,6 +2,14 @@
 layout: list
 title: Presentations
 items:
+  - title: The Mechanical Poetry of Word Embeddings
+    description: >
+      How Word Embeddings let you do maths with language!
+    dir: mechanical-poetry
+    events:
+    - venue: Chaos Computer Club Berlin Datengarten
+      url: https://berlin.ccc.de/wiki/Datengarten/83
+      date: 2017-12-12
   - title: Calculate your Bus Factor - an introduction to GNU-R
     description: >
       The strength of open source comes from the community, but what would happen if some of it were to go missing?
