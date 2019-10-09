@@ -1,0 +1,113 @@
+.shower {
+    --color-key: #1795D4;
+}
+
+.caption {
+//	background: #1795D4;
+}
+
+.caption p {
+//	color: #FFFFFF;
+}
+
+
+.slide pre code {
+//    line-height: 1.4;
+//    font-size: 18px;
+}
+
+body.shower {
+    font-family: 'Lato', sans-serif;
+}
+
+header.caption h1 {
+    font-family: 'Montserrat Bold', sans-serif;
+    font-weight: bold;
+}
+
+header.caption h2 {
+    margin: 0;
+    padding-bottom: 0.28em;
+    color: white;
+    font: bold 0.9em/1 'Montserrat Bold', sans-serif;
+}
+
+header.caption h3 {
+    margin: 0;
+    padding-bottom: 0.28em;
+    color: white;
+    font: bold 0.8em/1 'Montserrat Bold', sans-serif;
+}
+
+section.slide h2 {
+    font-family: 'Montserrat Bold', sans-serif;
+    /* font-size: 48px; */
+    font-weight: bold;
+}
+
+.slide td.mark {
+    background: #DFF9FF;
+}
+
+.title h1 {
+    color: white;
+    font-size: 2em;
+}
+
+.title p {
+    color: white;
+    line-height: 1.2em;
+}
+
+.title h2 {
+    color: white;
+    font-size: 1em;
+}
+
+
+/*
+      %style(type= "text/css")
+        :plain
+          #cover h1, #cover h2, #cover h3 {
+            color: #FFF;
+            text-align: center;
+            font-family: 'Montserrat Bold', san-serif;
+            font-weight: bold;
+            line-height: 1;
+            }
+          #cover h1 {
+            margin: 0;
+            font-size: 70px;
+          }
+          #cover h2 {
+            margin: 0;
+            font-size:36px;
+          }
+          #cover h3 {
+            margin: 1em;
+            font-size:42px;
+          }
+          #cover a {
+            color:#FFF;
+            text-decoration: none;
+            background: none;
+          }
+          #cover p#credit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            color: #FFF;
+            text-align: right;
+            font-size: 12px;
+          }
+          #cover p span {
+            margin-right: 0.5em;
+          }
+          p, li {
+            font-family: 'Lato', san-serif;
+            line-height: 1.4em;
+          }
+          li {
+            margin-bottom: 0.6em;
+          }
+*/

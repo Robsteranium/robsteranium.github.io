@@ -2,6 +2,17 @@
 layout: list
 title: Presentations
 items:
+  - title: Taming Data with Science
+    description: >
+      Information Entropy is a way of measuring data in terms of the amount of uncertainty it resolves.
+      We'll use this perspective to explore techniques for structuring and analysing your data. You will learn
+      practical ideas for how to extract more value from your data and leave with a framework for understanding
+      the value proposition of data-driven products.
+    dir: taming-data-with-science
+    events:
+    - venue: GOTO Nights Berlin
+      url: https://www.meetup.com/de-DE/GOTO-Nights-Berlin/events/264746997/?isFirstPublish=true
+      date: 2019-09-24
   - title: The Mechanical Poetry of Word Embeddings
     description: >
       How Word Embeddings let you do maths with language!
