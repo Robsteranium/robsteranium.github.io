@@ -10,8 +10,9 @@ layout: default
   <article class="post-content">
     {% for item in page.items %}
         <div id="list-item">
-          <a href="{{ item.dir }}">
-            <img src="{{ item.dir }}/thumbnail.png" />
+          <a href="{{ item.dir | default: item.events.first.url }}">
+            {% assign dir_thumbnail =  item.dir | append: '/thumbnail.png' %}
+            <img src="{{ item.thumbnail | default: dir_thumbnail }}" />
             <h3>{{ item.title }}</h3>
           </a>
           <p>{{ item.description | markdownify }}</p>
